@@ -26,10 +26,11 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: npm ci
-      - name: setup git config
-        run: |
-          git config --global user.email "mufaddal1125@gmail.com"
-          git config --global user.name "Mufaddal Patanwala"
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.SSH_PRIVATE_KEY }} 
+          known_hosts: 'just-a-placeholder'
       - name: deploy
         run: npm run deploy
         env:
