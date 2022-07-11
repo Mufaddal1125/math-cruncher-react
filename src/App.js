@@ -3,7 +3,7 @@ import React from 'react'
 import { LinearProgress, TextField } from '@mui/material'
 
 const operators = ['+', '-', '*', '/']
-const durationPerQues = 2;
+const durationPerQues = 10;
 
 
 function AnswerInput(props) {
@@ -25,7 +25,7 @@ class App extends React.Component {
           this.state = {
                initialNumber: initialNumber,
                question: null,
-               quizLength: 2,
+               quizLength: 15,
                qNo: 1,
                start: true,
                secondsLeft: durationPerQues,
