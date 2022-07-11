@@ -30,3 +30,4 @@ jobs:
         run: npm run deploy
         env:
           CI: ""
+          GIT_AUTHOR_EMAIL: mufaddal1125@gmail.com
