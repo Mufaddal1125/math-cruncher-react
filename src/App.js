@@ -3,6 +3,7 @@ import React from 'react'
 import { LinearProgress, TextField } from '@mui/material'
 
 const operators = ['+', '-', '*', '/']
+const durationPerQues = 2;
 
 
 function AnswerInput(props) {
@@ -24,10 +25,10 @@ class App extends React.Component {
           this.state = {
                initialNumber: initialNumber,
                question: null,
-               quizLength: 20,
+               quizLength: 2,
                qNo: 1,
                start: true,
-               secondsLeft: 5,
+               secondsLeft: durationPerQues,
                isGameOver: false
           }
 
@@ -35,18 +36,22 @@ class App extends React.Component {
                if (this.state.start) {
                     return;
                }
-               if (this.state.isGameOver) {
-                    clearInterval(timer);
-                    return;
-               }
+              
                if (this.state.secondsLeft === 0) {
-                    let question = this.generateQuestions(this.state.question.ans);
+                    if (this.state.qNo > this.state.quizLength) {
+                         this.setState({
+                              ...this.state,
+                              isGameOver: true
+                         });
+                         clearInterval(timer);
+                         return;
+                    }
                     this.setState({
                          ...this.state,
-                         question: question,
+                         question: this.generateQuestions(this.state.question.ans),
                          qNo: this.state.qNo + 1,
-                         secondsLeft: 5,
-                         isGameOver: this.state.qNo === this.state.quizLength
+                         secondsLeft: durationPerQues,
+                         isGameOver: false
                     });
                     return;
                }
@@ -78,11 +83,14 @@ class App extends React.Component {
           }
           if (op === '/') {
                // loop while curr is not divisible by l and curr is not 0
-               while (curr % l !== 0 || curr === 0) {
+               while (curr === 0) {
                     curr = Math.floor((Math.random() * 9));
                }
           }
           let ans = eval(l + op + curr);
+          if (typeof ans === 'float') {
+               ans = ans.toFixed(1);
+          }
           return {
                'curr': curr,
                'op': op,
@@ -110,7 +118,7 @@ class App extends React.Component {
           let start = this.state.start ? <h1> Take {this.state.initialNumber} </h1> : null;
           let operator = !this.state.start ? <h2 id='operator'>{this.getOperatorName(ques['op'])}</h2> : null
           let answer = this.state.isGameOver ? <div>
-               {this.state.userAns ? <h1>{this.state.userAns === ques.ans ? 'Right👌' : 'Try again😞'}</h1> : null}
+               {this.state.userAns != null ? <h1>{this.state.userAns === ques.ans ? 'Right👌' : 'Try again😞'}</h1> : null}
                <AnswerInput onChange={(ans) => {
                     this.setState({
                          ...this.state,
@@ -128,7 +136,7 @@ class App extends React.Component {
                     {start}
                     {answer}
                     {question}
-                    <LinearProgress className='progress-bar' variant="determinate" value={this.state.secondsLeft / 10 * 100} valueBuffer={3} />
+                    <LinearProgress className='progress-bar' variant="determinate" value={this.state.secondsLeft / durationPerQues * 100} valueBuffer={3} />
                </div>
           );
      }
