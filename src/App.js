@@ -14,6 +14,32 @@ function AnswerInput(props) {
      );
 }
 
+function evaluate(operator, a, b) {
+     switch (operator) {
+          case '+':
+               return a + b;
+          case '-':
+               return a - b;
+          case '*':
+               return a * b;
+          case '/':
+               return a / b;
+          default:
+               return 0;
+     }
+}
+
+function generateNumbersTodivide(left) {
+     let list = [];
+     // find the numbers which is divisible by left
+     for (let x = 1; x < 100; x++) {
+          if (left % x === 0) {
+               list.push(x);
+          }
+     }
+     return list;
+}
+
 
 class App extends React.Component {
      constructor() {
@@ -36,7 +62,7 @@ class App extends React.Component {
                if (this.state.start) {
                     return;
                }
-              
+
                if (this.state.secondsLeft === 0) {
                     if (this.state.qNo > this.state.quizLength) {
                          this.setState({
@@ -75,22 +101,16 @@ class App extends React.Component {
      }
 
      generateQuestions(l) {
-          let curr = Math.floor((Math.random() * 9));
+          let curr = Math.floor((Math.random() * 99));
           let op = operators[Math.floor(Math.random() * 4)];
-          // if op is division then only allow numbers divisible by l
-          if (op === '/' || op === '*') {
-               curr = Math.floor(Math.random() * 9);
-          }
           if (op === '/') {
-               // loop while curr is not divisible by l and curr is not 0
-               while (curr === 0) {
-                    curr = Math.floor((Math.random() * 9));
-               }
+               // if op is division then only allow numbers divisible by l
+               let numbers = generateNumbersTodivide(l);
+               curr = numbers[Math.floor(Math.random() * numbers.length)];
+          } else if (op === '*') {
+               curr = Math.floor((Math.random() * 20));
           }
-          let ans = eval(l + op + curr);
-          if (typeof ans === 'float') {
-               ans = ans.toFixed(1);
-          }
+          let ans = evaluate(op, l, curr);
           return {
                'curr': curr,
                'op': op,
