@@ -125,9 +125,9 @@ class App extends React.Component {
                case '-':
                     return 'Subtract';
                case '*':
-                    return 'Multiply';
+                    return 'Multiply By';
                case '/':
-                    return 'Divide';
+                    return 'Divide By';
                default:
                     return null;
           }
