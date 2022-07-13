@@ -5,5 +5,19 @@
   margin: 50px 100px;
 }
 .App .question {
-  margin: 50px 100px;
+  margin: 50px 10px;
+}
+
+.answer {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+}
+.answer * {
+  margin: 10px 15px;
+}
+.answer #input-box {
+  width: 60vw;
+  margin: 0;
 }

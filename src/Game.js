@@ -1,18 +1,10 @@
 import './styles/dist/app.css';
 import React from 'react'
-import { LinearProgress, TextField } from '@mui/material'
-
+import { LinearProgress } from '@mui/material'
+import GameOver from './GameOver';
 const operators = ['+', '-', '*', '/']
-const durationPerQues = 5;
+const durationPerQues = 7;
 
-
-function AnswerInput(props) {
-     return (
-          <div>
-               <TextField id="outlined-basic" label="Answer" variant="outlined" onChange={(event) => props.onChange(event.target.value)} />
-          </div>
-     );
-}
 
 function evaluate(operator, a, b) {
      switch (operator) {
@@ -51,7 +43,7 @@ class Game extends React.Component {
           this.state = {
                initialNumber: initialNumber,
                question: null,
-               quizLength: 15,
+               quizLength: 10,
                qNo: 1,
                start: true,
                secondsLeft: durationPerQues,
@@ -89,7 +81,7 @@ class Game extends React.Component {
 
      }
 
-     componentDidMount() {
+     start() {
           setTimeout(() => {
                let question = this.generateQuestions(this.state.initialNumber);
                this.setState({
@@ -98,6 +90,10 @@ class Game extends React.Component {
                     start: false,
                });
           }, 2000);
+     }
+
+     componentDidMount() {
+          this.start();
      }
 
      generateQuestions(l) {
@@ -137,24 +133,29 @@ class Game extends React.Component {
           let ques = this.state.question;
           let start = this.state.start ? <h1> Take {this.state.initialNumber} </h1> : null;
           let operator = !this.state.start ? <h2 id='operator'>{this.getOperatorName(ques['op'])}</h2> : null
-          let answer = this.state.isGameOver ? <div>
-               {this.state.userAns != null ? <h1>{this.state.userAns === ques.ans ? 'Right👌' : 'Try again😞'}</h1> : null}
-               <AnswerInput onChange={(ans) => {
-                    this.setState({
-                         ...this.state,
-                         userAns: parseFloat(ans)
-                    })
-               }}></AnswerInput>
-          </div> : null;
+
           let question = !this.state.isGameOver ? <div className="question">
                {operator}
                {!this.state.start ? <h2 id='curr'>{ques['curr']}</h2> : null}
           </div> : null;
+
+          if (this.state.isGameOver) {
+               return <GameOver ques={ques} onPlayAgain={() => {
+                    this.setState({
+                         ...this.state,
+                         qNo: 1,
+                         secondsLeft: durationPerQues,
+                         isGameOver: false,
+                         start: true
+                    });
+                    this.start();
+               }} />
+          }
+
           return (
                <div className="App">
                     <h1>Math Cruncher</h1>
                     {start}
-                    {answer}
                     {question}
                     <LinearProgress className='progress-bar' variant="determinate" value={(durationPerQues - this.state.secondsLeft) / durationPerQues * 100} valueBuffer={3} />
                </div>
