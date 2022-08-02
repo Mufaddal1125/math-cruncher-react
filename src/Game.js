@@ -34,8 +34,8 @@ function generateNumbersTodivide(left) {
 
 
 class Game extends React.Component {
-     constructor() {
-          super();
+     constructor(props) {
+          super(props);
           let initialNumber = Math.floor((Math.random() * 9));
           while (initialNumber === 0) {
                initialNumber = Math.floor((Math.random() * 9));
@@ -43,7 +43,7 @@ class Game extends React.Component {
           this.state = {
                initialNumber: initialNumber,
                question: null,
-               quizLength: 10,
+               quizLength: props.questionsLength,
                qNo: 1,
                start: true,
                secondsLeft: durationPerQues,
@@ -56,7 +56,7 @@ class Game extends React.Component {
                }
 
                if (this.state.secondsLeft === 0) {
-                    if (this.state.qNo > this.state.quizLength) {
+                    if (this.state.qNo >= this.state.quizLength) {
                          this.setState({
                               ...this.state,
                               isGameOver: true
