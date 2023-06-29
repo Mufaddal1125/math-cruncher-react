@@ -11,6 +11,7 @@ function AnswerInput(props) {
 
 export default function GameOver(props) {
     const [answer, setAnswer] = useState(null);
+    console.log('---GameOver--- props', props);
 
     const inputBox = <AnswerInput  onChange={(ans) => {
         setAnswer(parseInt(ans));
