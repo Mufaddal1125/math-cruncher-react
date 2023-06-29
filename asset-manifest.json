@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/math-cruncher-react/static/css/main.17947a89.css",
+    "main.js": "/math-cruncher-react/static/js/main.383cf24e.js",
+    "index.html": "/math-cruncher-react/index.html",
+    "main.17947a89.css.map": "/math-cruncher-react/static/css/main.17947a89.css.map",
+    "main.383cf24e.js.map": "/math-cruncher-react/static/js/main.383cf24e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.17947a89.css",
+    "static/js/main.383cf24e.js"
+  ]
+}
